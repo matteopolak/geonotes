@@ -1,89 +1,92 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:geonotes/features/notes/create_note_controller.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   @override
   State<NotesPage> createState() => NotesPageState();
 }
 
 class NotesPageState extends State<NotesPage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+  void _createNote() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const CreateNotePage(),
+      ),
+    ).then((_) {
+      setState(() {});
     });
+  }
+
+  Widget getNotes() {
+    return FutureBuilder<QuerySnapshot>(
+      future: FirebaseFirestore.instance
+          .collection('notes')
+          .where('uid', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
+          .orderBy('updatedAt', descending: true)
+          .get(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Center(
+            child: CircularProgressIndicator(color: Colors.grey),
+          );
+        } else if (snapshot.hasError) {
+          return const Center(
+              child: Text('An error occurred while loading notes'));
+        } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
+          return ListView.builder(
+            itemCount: snapshot.data!.docs.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(
+                    snapshot.data!.docs[index]['title'] ?? 'Note title...'),
+                subtitle: Text(snapshot.data!.docs[index]['content'] ?? ''),
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => CreateNotePage(
+                        noteId: snapshot.data!.docs[index].id,
+                        title: snapshot.data!.docs[index]['title'],
+                        content: snapshot.data!.docs[index]['content'],
+                      ),
+                    ),
+                  ).then((_) {
+                    setState(() {});
+                  })
+                },
+              );
+            },
+          );
+        } else {
+          return const Text('No notes :(');
+        }
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
-        appBar: AppBar(
-          // Here we take the value from the MyHomePage object that was created by
-          // the App.build method, and use it to set our appbar title.
-          title: Text(AppLocalizations.of(context)!.notesPageTitle),
+      appBar: AppBar(
+        title: Text(AppLocalizations.of(context)!.notesPageTitle),
+      ),
+      backgroundColor: Theme.of(context).backgroundColor,
+      body: Center(child: getNotes()),
+      floatingActionButton: SizedBox(
+        width: 80,
+        height: 80,
+        child: FloatingActionButton(
+          onPressed: _createNote,
+          tooltip: AppLocalizations.of(context)!.createNoteLabel,
+          child: const Icon(Icons.note_add, size: 30),
         ),
-        backgroundColor: Theme.of(context).backgroundColor,
-        body: Center(
-          // Center is a layout widget. It takes a single child and positions it
-          // in the middle of the parent.
-          child: Column(
-            // Column is also a layout widget. It takes a list of children and
-            // arranges them vertically. By default, it sizes itself to fit its
-            // children horizontally, and tries to be as tall as its parent.
-            //
-            // Invoke "debug painting" (press "p" in the console, choose the
-            // "Toggle Debug Paint" action from the Flutter Inspector in Android
-            // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-            // to see the wireframe for each widget.
-            //
-            // Column has various properties to control how it sizes itself and
-            // how it positions its children. Here we use mainAxisAlignment to
-            // center the children vertically; the main axis here is the vertical
-            // axis because Columns are vertical (the cross axis would be
-            // horizontal).
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'You have pushed the button this many times:',
-              ),
-              Text(
-                '$_counter',
-                style: Theme.of(context).textTheme.headline4,
-              ),
-            ],
-          ),
-        ),
-        floatingActionButton: SizedBox(
-          width: 80,
-          height: 80,
-          child: FloatingActionButton(
-            onPressed: _incrementCounter,
-            tooltip: 'Create note',
-            child: const Icon(Icons.note_add, size: 30),
-          ), // This trailing comma makes auto-formatting nicer for build methods.
-        ));
+      ),
+    );
   }
 }

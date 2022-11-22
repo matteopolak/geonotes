@@ -13,5 +13,7 @@
 	"emailNotRegisteredError": "E-mail address not registered",
 	"passwordMatchError": "Passwords do not match",
 	"passwordWeaknessError": "Password is too weak",
-	"passwordEmptyError": "Password cannot be empty"
+	"passwordEmptyError": "Password cannot be empty",
+	"createNoteLabel": "Create note",
+	"unknownError": "An unknown error occurred"
 }

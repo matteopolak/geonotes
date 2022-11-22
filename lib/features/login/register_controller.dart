@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../notes/notes_controller.dart';
@@ -39,6 +40,21 @@ class RegisterPageState extends State<RegisterPage> {
           .createUserWithEmailAndPassword(
               email: emailController.text, password: passwordController.text);
 
+      if (userCredential.user == null) {
+        return setState(() {
+          emailError = AppLocalizations.of(context)!.unknownError;
+          passwordError = null;
+        });
+      }
+
+      CollectionReference users =
+          FirebaseFirestore.instance.collection('users');
+
+      await users.doc(userCredential.user!.uid).set({
+        'email': userCredential.user!.email,
+        'uid': userCredential.user!.uid
+      });
+
       onSuccess.call();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
@@ -63,86 +79,94 @@ class RegisterPageState extends State<RegisterPage> {
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: SingleChildScrollView(
-          child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            Padding(
-                padding: const EdgeInsets.only(top: 60),
-                child: Center(
-                    child: Container(
-                  width: 200,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(100),
-                    image: const DecorationImage(
-                      image: AssetImage('assets/images/logo.png'),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              Padding(
+                  padding: const EdgeInsets.only(top: 60),
+                  child: Center(
+                      child: Container(
+                    width: 200,
+                    height: 200,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(100),
+                      image: const DecorationImage(
+                        image: AssetImage('assets/images/logo.png'),
+                      ),
                     ),
-                  ),
-                ))),
-            const SizedBox(height: 50),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 25),
-              child: TextFormField(
-                controller: emailController,
-                validator: (email) => email == null
-                    ? null
-                    : emailRegex.hasMatch(email)
-                        ? null
-                        : "Invalid email address",
-                decoration: InputDecoration(
-                    errorText: emailError,
-                    labelText: AppLocalizations.of(context)!.emailLabel),
+                  ))),
+              const SizedBox(height: 50),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 25),
+                child: TextFormField(
+                  controller: emailController,
+                  validator: (email) => email == null
+                      ? null
+                      : emailRegex.hasMatch(email)
+                          ? null
+                          : 'Invalid email address',
+                  decoration: InputDecoration(
+                      errorText: emailError,
+                      labelText: AppLocalizations.of(context)!.emailLabel),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 25, right: 25, top: 10, bottom: 0),
-              child: TextFormField(
-                obscureText: true,
-                controller: passwordController,
-                validator: (password) => password != null && password.isNotEmpty
-                    ? null
-                    : AppLocalizations.of(context)!.passwordEmptyError,
-                decoration: InputDecoration(
-                    errorText: passwordError,
-                    labelText: AppLocalizations.of(context)!.passwordLabel),
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 25, right: 25, top: 10, bottom: 0),
+                child: TextFormField(
+                  obscureText: true,
+                  controller: passwordController,
+                  validator: (password) =>
+                      password != null && password.isNotEmpty
+                          ? null
+                          : AppLocalizations.of(context)!.passwordEmptyError,
+                  decoration: InputDecoration(
+                      errorText: passwordError,
+                      labelText: AppLocalizations.of(context)!.passwordLabel),
+                ),
               ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(
-                  left: 25, right: 25, top: 10, bottom: 0),
-              child: TextFormField(
-                obscureText: true,
-                controller: retypePasswordController,
-                validator: (password) => password == passwordController.text
-                    ? null
-                    : AppLocalizations.of(context)!.passwordMatchError,
-                decoration: InputDecoration(
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: 25, right: 25, top: 10, bottom: 0),
+                child: TextFormField(
+                  obscureText: true,
+                  controller: retypePasswordController,
+                  validator: (password) => password == passwordController.text
+                      ? null
+                      : AppLocalizations.of(context)!.passwordMatchError,
+                  decoration: InputDecoration(
                     labelText:
-                        AppLocalizations.of(context)!.retypePasswordLabel),
+                        AppLocalizations.of(context)!.retypePasswordLabel,
+                  ),
+                ),
               ),
-            ),
-            const SizedBox(
-              height: 35,
-            ),
-            SizedBox(
-              height: 50,
-              width: 250,
-              child: ElevatedButton(
+              const SizedBox(
+                height: 35,
+              ),
+              SizedBox(
+                height: 50,
+                width: 250,
+                child: ElevatedButton(
                   onPressed: () {
-                    register(() {
-                      Navigator.pushReplacement(
+                    register(
+                      () {
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const NotesPage()));
-                    });
+                            builder: (context) => const NotesPage(),
+                          ),
+                        );
+                      },
+                    );
                   },
-                  child: Text(AppLocalizations.of(context)!.registerLabel)),
-            ),
-          ],
+                  child: Text(AppLocalizations.of(context)!.registerLabel),
+                ),
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }
