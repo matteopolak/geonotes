@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:geonotes/features/notes/create_note_controller.dart';
+import '../login/login_controller.dart';
 
 class NotesPage extends StatefulWidget {
   const NotesPage({super.key});
@@ -106,7 +107,22 @@ class NotesPageState extends State<NotesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.notesPageTitle),
+        title:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text(AppLocalizations.of(context)!.notesPageTitle),
+          IconButton(
+            icon: const Icon(Icons.logout),
+            onPressed: () {
+              FirebaseAuth.instance.signOut();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const LoginPage(),
+                ),
+              );
+            },
+          ),
+        ]),
       ),
       backgroundColor: Theme.of(context).backgroundColor,
       body: Center(child: getNotes()),
