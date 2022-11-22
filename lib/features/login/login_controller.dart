@@ -43,12 +43,12 @@ class LoginPageState extends State<LoginPage> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         setState(() {
-          emailError = "E-mail address not registered";
+          emailError = AppLocalizations.of(context)!.emailNotRegisteredError;
           passwordError = null;
         });
       } else if (e.code == 'wrong-password') {
         setState(() {
-          passwordError = "Invalid password";
+          passwordError = AppLocalizations.of(context)!.invalidPasswordError;
           emailError = null;
         });
       }
@@ -86,7 +86,7 @@ class LoginPageState extends State<LoginPage> {
                     ? null
                     : emailRegex.hasMatch(email)
                         ? null
-                        : "Invalid email address",
+                        : AppLocalizations.of(context)!.invalidEmailError,
                 decoration: InputDecoration(
                     errorText: emailError,
                     labelText: AppLocalizations.of(context)!.emailLabel),
@@ -101,7 +101,7 @@ class LoginPageState extends State<LoginPage> {
                 controller: passwordController,
                 validator: (password) => password != null && password.isNotEmpty
                     ? null
-                    : "Password cannot be empty",
+                    : AppLocalizations.of(context)!.passwordEmptyError,
                 decoration: InputDecoration(
                     errorText: passwordError,
                     labelText: AppLocalizations.of(context)!.passwordLabel),

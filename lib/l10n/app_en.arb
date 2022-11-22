@@ -6,5 +6,12 @@
 	"notesPageTitle": "Notes",
 	"registerPageTitle": "Create a new account",
 	"registerLabel": "Register",
-	"retypePasswordLabel": "Re-type password"
+	"retypePasswordLabel": "Re-type password",
+	"invalidPasswordError": "Invalid password",
+	"invalidEmailError": "Invalid e-mail address",
+	"emailInUseError": "E-mail address already in use",
+	"emailNotRegisteredError": "E-mail address not registered",
+	"passwordMatchError": "Passwords do not match",
+	"passwordWeaknessError": "Password is too weak",
+	"passwordEmptyError": "Password cannot be empty"
 }

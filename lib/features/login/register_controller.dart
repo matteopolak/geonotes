@@ -43,12 +43,12 @@ class RegisterPageState extends State<RegisterPage> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         setState(() {
-          passwordError = "Password is too weak";
+          passwordError = AppLocalizations.of(context)!.passwordWeaknessError;
           emailError = null;
         });
       } else if (e.code == 'email-already-in-use') {
         setState(() {
-          emailError = "E-mail already in use";
+          emailError = AppLocalizations.of(context)!.emailInUseError;
           passwordError = null;
         });
       }
@@ -103,7 +103,7 @@ class RegisterPageState extends State<RegisterPage> {
                 controller: passwordController,
                 validator: (password) => password != null && password.isNotEmpty
                     ? null
-                    : "Password cannot be empty",
+                    : AppLocalizations.of(context)!.passwordEmptyError,
                 decoration: InputDecoration(
                     errorText: passwordError,
                     labelText: AppLocalizations.of(context)!.passwordLabel),
@@ -117,7 +117,7 @@ class RegisterPageState extends State<RegisterPage> {
                 controller: retypePasswordController,
                 validator: (password) => password == passwordController.text
                     ? null
-                    : "Passwords do not match",
+                    : AppLocalizations.of(context)!.passwordMatchError,
                 decoration: InputDecoration(
                     labelText:
                         AppLocalizations.of(context)!.retypePasswordLabel),
