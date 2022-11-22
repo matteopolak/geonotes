@@ -15,8 +15,7 @@ class CreateNotePage extends StatefulWidget {
 }
 
 class CreateNotePageState extends State<CreateNotePage> {
-  final TextEditingController _title =
-      TextEditingController(text: 'Note title...');
+  final TextEditingController _title = TextEditingController();
   final TextEditingController _content = TextEditingController();
 
   String? _noteId;
@@ -38,7 +37,10 @@ class CreateNotePageState extends State<CreateNotePage> {
       DocumentReference note =
           await FirebaseFirestore.instance.collection('notes').add({
         'uid': FirebaseAuth.instance.currentUser!.uid,
-        'content': _content.text.isEmpty ? null : _content.text,
+        'content': _content.text.isEmpty ||
+                _content.text == AppLocalizations.of(context)!.defaultNoteTitle
+            ? null
+            : _content.text,
         'title': _title.text.isEmpty ? null : _title.text,
         'createdAt': DateTime.now(),
         'updatedAt': DateTime.now(),
@@ -69,6 +71,12 @@ class CreateNotePageState extends State<CreateNotePage> {
     if (widget.noteId != null) {
       _noteId = widget.noteId;
     }
+
+    Future.delayed(Duration.zero, () {
+      if (widget.title == null) {
+        _title.text = AppLocalizations.of(context)!.defaultNoteTitle;
+      }
+    });
   }
 
   @override
@@ -87,10 +95,7 @@ class CreateNotePageState extends State<CreateNotePage> {
               controller: _title,
               maxLength: 256,
               maxLines: null,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
               decoration: const InputDecoration(
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
@@ -111,11 +116,11 @@ class CreateNotePageState extends State<CreateNotePage> {
               controller: _content,
               maxLength: 2048,
               maxLines: null,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
-                hintText: 'Note content...',
+                hintText: AppLocalizations.of(context)!.noteContentHint,
                 counterText: '',
               ),
               onChanged: (data) {
@@ -137,7 +142,7 @@ class CreateNotePageState extends State<CreateNotePage> {
               height: 80,
               child: FloatingActionButton(
                 onPressed: _saveNote,
-                tooltip: 'Save note',
+                tooltip: AppLocalizations.of(context)!.saveNoteTooltip,
                 child: const Icon(Icons.save, size: 30),
               ),
             ),

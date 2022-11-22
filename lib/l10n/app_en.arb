@@ -19,5 +19,10 @@
 	"cancel": "Cancel",
 	"delete": "Delete",
 	"deleteNoteTitle": "Are you sure?",
-	"deleteNoteMessage": "Do you really want to delete this note?"
+	"deleteNoteMessage": "Do you really want to delete this note?",
+	"defaultNoteTitle": "Untitled note",
+	"noNotes": "No notes :(",
+	"notesFetchError": "An error occurred while fetching notes",
+	"noteContentHint": "Note content...",
+	"saveNoteTooltip": "Save note"
 }

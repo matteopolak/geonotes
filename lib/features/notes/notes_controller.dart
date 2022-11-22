@@ -36,16 +36,17 @@ class NotesPageState extends State<NotesPage> {
             child: CircularProgressIndicator(color: Colors.grey),
           );
         } else if (snapshot.hasError) {
-          return const Center(
-              child: Text('An error occurred while loading notes'));
+          return Center(
+              child: Text(AppLocalizations.of(context)!.notesFetchError));
         } else if (snapshot.hasData && snapshot.data!.docs.isNotEmpty) {
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) {
               return ListTile(
-                title: Text(
-                    snapshot.data!.docs[index]['title'] ?? 'Note title...'),
-                subtitle: Text(snapshot.data!.docs[index]['content'] ?? ''),
+                title: Text(snapshot.data!.docs[index]['title'] ??
+                    AppLocalizations.of(context)!.defaultNoteTitle),
+                subtitle: Text(snapshot.data!.docs[index]['content'] ?? '',
+                    overflow: TextOverflow.ellipsis),
                 onLongPress: () => {
                   showDialog(
                     context: context,
@@ -95,7 +96,7 @@ class NotesPageState extends State<NotesPage> {
             },
           );
         } else {
-          return const Text('No notes :(');
+          return Text(AppLocalizations.of(context)!.noNotes);
         }
       },
     );
