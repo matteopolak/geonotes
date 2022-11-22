@@ -46,6 +46,37 @@ class NotesPageState extends State<NotesPage> {
                 title: Text(
                     snapshot.data!.docs[index]['title'] ?? 'Note title...'),
                 subtitle: Text(snapshot.data!.docs[index]['content'] ?? ''),
+                onLongPress: () => {
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
+                      title:
+                          Text(AppLocalizations.of(context)!.deleteNoteTitle),
+                      content:
+                          Text(AppLocalizations.of(context)!.deleteNoteMessage),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context),
+                          child: Text(AppLocalizations.of(context)!.cancel),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            FirebaseFirestore.instance
+                                .collection('notes')
+                                .doc(snapshot.data!.docs[index].id)
+                                .delete()
+                                .then((_) {
+                              Navigator.pop(context);
+
+                              setState(() {});
+                            });
+                          },
+                          child: Text(AppLocalizations.of(context)!.delete),
+                        ),
+                      ],
+                    ),
+                  )
+                },
                 onTap: () => {
                   Navigator.push(
                     context,

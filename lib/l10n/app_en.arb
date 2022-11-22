@@ -15,5 +15,9 @@
 	"passwordWeaknessError": "Password is too weak",
 	"passwordEmptyError": "Password cannot be empty",
 	"createNoteLabel": "Create note",
-	"unknownError": "An unknown error occurred"
+	"unknownError": "An unknown error occurred",
+	"cancel": "Cancel",
+	"delete": "Delete",
+	"deleteNoteTitle": "Are you sure?",
+	"deleteNoteMessage": "Do you really want to delete this note?"
 }
