@@ -1,16 +1,13 @@
-# geonotes
+<p align="center">
+  <img src="https://github.com/matteopolak/geonotes/blob/main/readme_assets/logo.png" />
+</p>
 
-A new Flutter project.
+# GeoNotes
 
-## Getting Started
+An open-source note-taking platform.
 
-This project is a starting point for a Flutter application.
+## Screenshots
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+|                                                 Login                                                  |                                                   Register                                                   |                                                 View notes                                                  |                                                    Create a note                                                     |
+| :----------------------------------------------------------------------------------------------------: | :----------------------------------------------------------------------------------------------------------: | :---------------------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------: |
+| ![Screenshot of login page](https://github.com/matteopolak/geonotes/blob/main/readme_assets/login.png) | ![Screenshot of register page](https://github.com/matteopolak/geonotes/blob/main/readme_assets/register.png) | ![Screenshot of notes page](https://github.com/matteopolak/geonotes/blob/main/readme_assets/view_notes.png) | ![Screenshot of note creation page](https://github.com/matteopolak/geonotes/blob/main/readme_assets/create_note.png) |
