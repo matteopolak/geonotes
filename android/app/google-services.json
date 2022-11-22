@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "168455003896",
+    "project_id": "erudite-acre-257914",
+    "storage_bucket": "erudite-acre-257914.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168455003896:android:117c00d62a4cb1f622250d",
+        "android_client_info": {
+          "package_name": "com.example.geonotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168455003896-l424k0ushokt13llcsu17chh0km19ucr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxsk-G3xtYwpWmAgg-fnSJA-AmnRBvW_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "168455003896-l424k0ushokt13llcsu17chh0km19ucr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "168455003896-3tm8hj4gsi90et4s7riutsjvehj85o0d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.geonotes"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168455003896:android:d48ac4f71618c7b222250d",
+        "android_client_info": {
+          "package_name": "com.matteopolak.geonotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168455003896-l424k0ushokt13llcsu17chh0km19ucr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDxsk-G3xtYwpWmAgg-fnSJA-AmnRBvW_A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "168455003896-l424k0ushokt13llcsu17chh0km19ucr.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "168455003896-3tm8hj4gsi90et4s7riutsjvehj85o0d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.geonotes"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

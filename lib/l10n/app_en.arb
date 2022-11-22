@@ -1,0 +1,10 @@
+{
+	"newUserCreateAccount": "New user? Create an account.",
+	"emailLabel": "E-mail",
+	"passwordLabel": "Password",
+	"loginButtonLabel": "Login",
+	"notesPageTitle": "Notes",
+	"registerPageTitle": "Create a new account",
+	"registerLabel": "Register",
+	"retypePasswordLabel": "Re-type password"
+}
